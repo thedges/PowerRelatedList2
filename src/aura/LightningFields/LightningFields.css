@@ -1,0 +1,12 @@
+.THIS.chunk {
+        border-bottom: 1px solid whitesmoke;
+        padding-bottom: 0.5rem;
+        padding-left:0.5rem;
+    	padding-top: 0.5rem;
+    	/*min-height:75px;*/
+}
+
+.THIS.chunk:last-of-type {
+	border:none;
+	padding-bottom:0rem;
+}

@@ -1,0 +1,108 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="Ora">
+    <ltng:require scripts="{!$Resource.lodash}" afterScriptsLoaded="{!c.doInit}"/>
+    
+    <aura:attribute name="title" type="string" required="false" access="global"/>
+    <aura:attribute name="objectName" type="string" required="true" default="Contact"  access="global"/>
+    <aura:attribute name="lookupField" type="string" required="true" default="AccountId" access="global"/>    
+    <aura:attribute name="displayFields" type="string" required="true" default="Name, Phone, Email" access="global"/>
+    <aura:attribute name="editableFields" type="string" required="false" default="" access="global"/>
+    <aura:attribute name="sumFields" type="string" required="false" default="" access="global"/>
+    <aura:attribute name="showFilter" type="boolean" default="false" access="global"/>
+    <aura:attribute name="allowAdd" type="boolean" default="true" access="global"/>
+    <aura:attribute name="addRecordTypeId" type="string" default="01215000001MWZP" required="false" access="global"/>
+    <aura:attribute name="filterRecordTypeId" type="boolean" default="false" access="global"/>
+    <aura:attribute name="recordTypeId" type="string" required="false" access="global"/>
+    <aura:attribute name="iconName" type="string" access="global"/>
+    <aura:attribute name="colUppercase" type="boolean" default="false" access="global"/>
+    <aura:attribute name="editMode" type="boolean" default="false" access="global"/>
+    <aura:attribute name="whereClause" type="string" access="global"/>
+    <aura:attribute name="standardNewRecord" type="boolean" default="false" access="global"/>
+    
+    <!--not design, but shared across components-->
+    <aura:attribute name="pluralLabel" type="string" access="global"/>
+
+    <!--internal only attributes-->
+    <aura:attribute name="newRecord" type="object"/>
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="adding" type="boolean" default="false"/>
+    <aura:attribute name="results" type="object[]"/>
+    <aura:attribute name="filter" type="string"/>
+    <aura:attribute name="filteredResults" type="object[]"/>
+    <aura:attribute name="displayFieldsArray" type="object[]"/>
+    <aura:attribute name="sortState" type="object"/>
+    <aura:attribute name="showSpinner" type="boolean" />
+
+    <!--handler for filter changes-->
+    <aura:handler name="change" value="{!v.filter}" action="{!c.filter}"/>
+    <aura:handler event="ltng:selectSObject" action="{!c.handleSelect}"   />
+    <aura:handler event="c:FieldChangeEvent" action="{!c.handleFieldChange}"   />
+
+    <!--error handling-->
+    <aura:registerEvent name="handleCallbackError" type="c:handleCallbackError"/>
+    <c:LightningErrorHandler errorHandlerName="PRL"/>
+     <aura:attribute name="errorMsg" type="String"/>
+
+    <div class="slds-card slds-card_boundary">
+    <lightning:card iconName="{!v.iconName}">    
+        <aura:set attribute="title">
+            <aura:if isTrue="{! and(v.title != null, v.title.length > 0)}">
+               <b>{!v.title + ' (' + v.results.length + ')'}</b>
+               <aura:set attribute="else">
+                    <b>{!v.pluralLabel + ' (' + v.results.length + ')'}</b>
+               </aura:set>
+            </aura:if>
+            <aura:if isTrue="{! and(v.editableFields != null, v.editableFields.length > 0)}">
+                <span class="slds-p-left_small slds-p-bottom_small">
+                  <lightning:buttonIcon iconName="utility:edit" variant="bare" onclick="{! c.handleEditClick }" alternativeText="Edit" />
+                </span>
+            </aura:if>
+        </aura:set>
+        <aura:set attribute="actions">
+            <div class="slds-form--inline">
+                <aura:if isTrue="{!v.showFilter}">      
+                    <div class="slds-form-element">
+                        <ui:inputText value="{!v.filter}" updateOn="keyup" class="slds-input" placeholder="Type to Filter"/>                            
+                    </div>
+                </aura:if>
+                <aura:if isTrue="{!v.allowAdd}">
+                    <lightning:button label="New" onclick="{!c.createRecord}"/>
+                </aura:if>
+            </div>
+        </aura:set>
+        <c:LightningDataTable sObjectType="{!v.objectName}" results="{!v.filteredResults}" editMode="{!v.editMode}"
+          displayFields="{!v.displayFields}" editableFields="{!v.editableFields}" sumFields="{!v.sumFields}" colUppercase="{!v.colUppercase}" />
+      </lightning:card>
+      </div>
+
+      <!-- create modal -->
+      <aura:if isTrue="{!v.adding}">
+
+        <div role="dialog" tabindex="-1" aria-labelledby="header43" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <div class="slds-modal__header">                    
+                    <h2 id="header43" class="slds-text-heading--medium">Add {!v.pluralLabel}</h2>
+                </div>
+                <div class="slds-modal__content slds-p-around--medium">
+                    <aura:if isTrue="{!v.errorMsg.length > 0}">
+                      <ui:message title="Error" severity="error" closable="false" click="{!c.closeError}">
+                       {!v.errorMsg}
+                      </ui:message>
+                    </aura:if>
+                    <c:LightningFields allEditable="true" displayFields="{!v.displayFields}" sObjectType="{!v.objectName}" record="{!v.newRecord}" instantSave="false"/>
+                </div>
+                <div class="slds-modal__footer">
+                    <button class="slds-button slds-button--neutral" onclick="{!c.cancelCreate}">Cancel</button>
+                    <button class="slds-button slds-button--neutral slds-button--brand" onclick="{!c.saveNewRecord}">Save</button>
+                </div>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+        <!-- <div class="slds-card__footer"><a href="javascript:void(0);">View All <span class="slds-assistive-text">entity type</span></a></div> -->
+    </aura:if>
+    <aura:if isTrue="{!v.showSpinner}">
+        <div class="slds-is-relative">
+            <lightning:spinner/>
+        </div>
+    </aura:if>
+</aura:component>

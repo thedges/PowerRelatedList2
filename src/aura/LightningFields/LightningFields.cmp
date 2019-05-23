@@ -1,0 +1,65 @@
+<aura:component controller="Ora"  access="global">
+    
+    <ltng:require scripts="{!$Resource.lodash}" afterScriptsLoaded="{!c.doInit}"/>
+    
+    <!--public-->
+    <aura:attribute name="record" type="object" required="false" access="global"/>
+    <aura:attribute name="displayFields" type="string" required="true"  access="global"/>
+    <aura:attribute name="helpFields" type="string" required="false" description="comma separated list of field API names where you want to display the help text INSTEAD of the Label" access="global"/>
+    <aura:attribute name="sObjectType" type="string" required="true"  access="global"/>
+    <aura:attribute name="instantSave" type="boolean" default="true" access="global"/>
+    <aura:attribute name="columns" type="integer" default="2" access="global"/>
+    <aura:attribute name="allEditable" type="boolean" default="false" access="global"/>
+    <aura:attribute name="pluralLabel" type="string" access="global"/>
+    
+    <!--internal-->
+    <aura:attribute name="displayFieldsArray" type="object[]" />
+    <aura:attribute name="editableFields" type="string"/>
+    <aura:attribute name="chunks" type="object[]"/>
+    <aura:attribute name="showSpinner" type="boolean" default="true"/>
+    
+    <aura:iteration items="{!v.chunks}" var="chunk">
+        <div class="slds-grid slds-wrap slds-grid--pull-padded chunk">
+            <aura:iteration items="{!chunk}" var="field">
+                <div class="{!'slds-form-element slds-p-horizontal--medium slds-size--1-of-' + v.columns}">
+                    
+                    <!--show label-->                         
+                    <label class="{!field.label == 'label' ? 'slds-form-element__label' : 'slds-hide'}" for="text-input-01">{!field.describe.label }</label>
+                    
+                    <aura:if isTrue="{!and(field.describe.help, field.label == 'label')}">   
+                        
+                        
+                        <span data-help="{!field.describe.help}" data-field="{!field.describe.label}" onmouseenter="{!c.popTitle}" id="{!field.describe.label + '-help'}" title="{!field.describe.label}">
+
+                            <lightning:icon iconName="utility:info" alternativeText="get help" size="xx-small" />
+                            
+                      </span>
+
+                      
+                  </aura:if> 
+                  
+                  <!--show help-->
+                  <label class="{!field.label == 'help' ? 'slds-form-element__label' : 'slds-hide'}" for="text-input-01">{!field.describe.help || field.describe.label}</label>
+                  
+                  
+                  <div class="slds-form-element__control">
+                    <!--can read, can't edit-->
+                    <aura:if isTrue="{!and(field.describe.userCanRead, or(!field.editable, field.related))}">
+                        <c:SingleFieldDisplayerReadOnly record="{!v.record}" fieldDescribe="{!field}"/>
+                    </aura:if>
+                    <!--full read-write-->
+                    <aura:if isTrue="{!and(field.describe.userCanRead, field.editable, !field.related)}">
+                        <c:SingleFieldDisplayer record="{!v.record}" fieldDescribe="{!field}" instantSave="{!v.instantSave}"/>
+                    </aura:if>
+                </div>
+            </div>
+        </aura:iteration>
+    </div>
+</aura:iteration>
+<aura:if isTrue="{!v.showSpinner}">
+    <div class="slds-is-relative">
+        <lightning:spinner/>
+    </div>
+</aura:if>
+{!v.body}
+</aura:component>

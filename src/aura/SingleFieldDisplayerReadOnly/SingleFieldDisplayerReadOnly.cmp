@@ -1,0 +1,9 @@
+<aura:component access="global">
+    <aura:attribute name="record" type="object" required="true" access="global"/>
+    <aura:attribute name="fieldDescribe" type="object" required="true" access="global"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+	{!v.body}
+    
+</aura:component>

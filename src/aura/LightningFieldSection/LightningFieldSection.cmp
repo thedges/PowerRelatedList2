@@ -1,0 +1,52 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" access="global" controller="Ora" >
+
+  <aura:attribute name="displayFields" type="string" required="true"  access="global"/>
+
+  <aura:attribute name="editableFields" type="string" required="false" default=""  access="global"/>
+
+  <aura:attribute name="helpFields" type="string" required="false" description="comma separated list of field API names where you want to display the help text INSTEAD of the Label" default="" access="global"/>
+  <aura:attribute name="instantSave" type="boolean" default="true" access="global"/>
+  <aura:attribute name="sectionTitle" type="string" default="" access="global"/>
+  <aura:attribute name="columns" type="integer" default="2" access="global"/>
+  <aura:attribute name="collapsible" type="boolean" default="false" access="global"/>
+
+  
+  <aura:attribute name="collapsed" type="boolean" default="false"/>
+
+  <aura:attribute name="record" type="object" />
+
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="sObjectName" type="String" />
+
+  <ltng:require scripts="{!$Resource.lodash}" afterScriptsLoaded="{!c.doInit}"/>
+
+
+  <aura:if isTrue="{!and(v.collapsible, v.sectionTitle)}">
+    <div class="slds-section slds-is-open">
+      <h3 class="slds-section__title">
+        <aura:if isTrue="{!!v.collapsed}">
+          <lightning:button class="slds-section__title-action" iconName="utility:chevrondown" label="{!v.sectionTitle}" onclick="{!c.toggleOpen}" variant="base"/>
+        </aura:if>
+        <aura:if isTrue="{!v.collapsed}">
+          <lightning:button class="slds-section__title-action" iconName="utility:chevronright" label="{!v.sectionTitle}" onclick="{!c.toggleOpen}" variant="base"/>
+        </aura:if>
+      </h3>
+    </div>
+    <!-- <h2 class="slds-section-title++divider">{!v.sectionTitle}</h2> -->
+  </aura:if>
+  <aura:if isTrue="{!and(v.sectionTitle, !v.collapsible)}">
+        <h2 class="slds-section-title--divider">{!v.sectionTitle}</h2>
+  </aura:if>
+
+  <aura:if isTrue="{!and(!v.collapsed, v.record)}">
+    <div class="slds-form">
+      <c:LightningFields record="{!v.record}"
+       displayFields="{!v.displayFields}"
+       helpFields="{!v.helpFields}"
+       editableFields="{!v.editableFields}"
+       instantSave="{!v.instantSave}"
+       sObjectType="{!v.sObjectName}" 
+       columns="{!v.columns}"/>
+     </div>
+   </aura:if>
+ </aura:component>

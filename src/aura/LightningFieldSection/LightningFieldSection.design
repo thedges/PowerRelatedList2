@@ -1,0 +1,12 @@
+<design:component>
+    <design:attribute name="displayFields" label="Fields to show" description="comma separated list of fields" />
+    <design:attribute name="editableFields" label="Editable fields" description="comma separated list of fields that should be editable, if permissions allow" />
+
+    <design:attribute name="helpFields" label="Help fields" description="comma separated list of fields where you want to show the help text INSTEAD of the field label" />
+    <design:attribute name="sectionTitle" label="Section title" description="big name of the section, in case you have several of this componet on the page.  Leave blank to have no section title shown." />
+
+    <design:attribute name="columns" label="Columns" description="how many columns to show in the section"/>   
+
+	<design:attribute name="collapsible" label="Collapsible Section" description="make this section collapsible"/> 
+     
+</design:component>

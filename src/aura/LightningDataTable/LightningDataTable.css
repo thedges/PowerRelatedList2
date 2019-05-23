@@ -1,0 +1,44 @@
+.THIS .slds-table td {
+    white-space:normal; /* wraps larger stuff like textarea and long text*/
+}
+
+.THIS tr.total-row td {
+    border-top:1pt solid #908a84;
+    border-bottom:1pt solid #908a84;
+  }
+
+.THIS td.data-currency, .THIS th.col-currency {
+    text-align: right;
+}  
+
+.THIS td.data-currency input {
+    text-align: right !important;
+}  
+
+.THIS td.data-double, .THIS th.col-double {
+    text-align: right;
+}  
+
+.THIS td.data-double input {
+    text-align: right !important;
+}  
+
+.THIS td.data-number, .THIS th.col-number {
+    text-align: right;
+}  
+
+.THIS td.data-number input {
+    text-align: right !important;
+}  
+
+.THIS td.align-right {
+    text-align: right;
+}  
+
+.THIS th {
+    letter-spacing: .0625rem;
+    font-size: .75rem;
+}
+.THIS th.col-uppercase {
+    text-transform: uppercase;
+}

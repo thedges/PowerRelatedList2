@@ -1,0 +1,135 @@
+<aura:component controller="Ora" access="global">
+    <aura:attribute name="record" type="object" required="true" access="global"/>
+    <aura:attribute name="fieldDescribe" type="object" required="true" access="global"/>
+
+    <aura:attribute name="simpleOutput" type="string" required="false" access="global"/>
+    <aura:attribute name="instantSave" type="boolean" default="true" access="global"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <aura:registerEvent name="fieldChangeEvent" type="c:FieldChangeEvent"/>
+    <aura:registerEvent name="handleCallbackError" type="c:handleCallbackError"/>
+
+    <!--no access? show NOTHING!-->
+    <aura:if isTrue="{!v.fieldDescribe.describe.userCanRead}">   
+
+
+             
+        <!-- types=string, phone -->
+        <aura:if isTrue="{!v.fieldDescribe.describe.type == 'string' || v.fieldDescribe.describe.type == 'phone'}">
+            <aura:if isTrue="{!and(v.fieldDescribe.describe.userCanEdit, v.fieldDescribe.editable)}">                          
+                <input value="{!v.simpleOutput}" onblur="{!c.updateRecord}" class="slds-input slds-input--small"/>               
+                <aura:set attribute="else">
+                    {!v.simpleOutput}                                                
+                </aura:set>
+            </aura:if>        
+        </aura:if>
+
+        <!-- email -->
+        <aura:if isTrue="{!v.fieldDescribe.describe.type== 'email'}">
+            <aura:if isTrue="{!and(v.fieldDescribe.describe.userCanEdit, v.fieldDescribe.editable)}">            
+                <input value="{!v.simpleOutput}" onblur="{!c.updateRecord}" class="slds-input slds-input--small" type="email"/>               
+                <aura:set attribute="else">
+                    {!v.simpleOutput}                                                
+                </aura:set>
+            </aura:if>        
+        </aura:if>
+
+        <!-- types=url -->
+        <aura:if isTrue="{!v.fieldDescribe.describe.type == 'url'}">
+            <aura:if isTrue="{!and(v.fieldDescribe.describe.userCanEdit, v.fieldDescribe.editable)}">            
+                <input value="{!v.simpleOutput}" onblur="{!c.updateRecord}" class="slds-input slds-input--small"/>               
+                <aura:set attribute="else">
+                    <a href="{!v.simpleOutput}" class="slds-truncate">{!v.simpleOutput}</a>                                                
+                </aura:set>
+            </aura:if>        
+        </aura:if>
+
+        <!-- larger text fields -->
+        <aura:if isTrue="{!and (!v.fieldDescribe.describe.isHTML, v.fieldDescribe.describe.type == 'textarea') || v.fieldDescribe.describe.type == 'combobox' }">
+            <aura:if isTrue="{!and(v.fieldDescribe.describe.userCanEdit, v.fieldDescribe.editable)}">            
+                <textarea value="{!v.simpleOutput}" onblur="{!c.updateRecord}" class="slds-input slds-input--small"/>               
+                <aura:set attribute="else">
+                    {!v.simpleOutput}                                                
+                </aura:set>
+            </aura:if>        
+        </aura:if>    
+
+        <!-- rich text -->
+        <aura:if isTrue="{!and (v.fieldDescribe.describe.isHTML, v.fieldDescribe.describe.type == 'textarea')}">
+            Rich Text Editing is not supported :)
+            <!-- <aura:if isTrue="{!and(v.fieldDescribe.describe.userCanEdit, v.fieldDescribe.editable)}">            
+                <textarea value="{!v.simpleOutput}" onblur="{!c.updateRecord}" class="slds-input slds-input++small"/>               
+                <aura:set attribute="else">
+                    {!v.simpleOutput}                                                
+                </aura:set>
+            </aura:if>  -->       
+        </aura:if>
+
+        <!-- types=boolean -->
+        <aura:if isTrue="{!v.fieldDescribe.describe.type == 'boolean'}">
+            <ui:inputCheckbox change="{!c.flipCheckbox}" disabled="{!!and(v.fieldDescribe.describe.userCanEdit, v.fieldDescribe.editable)}" value="{!v.simpleOutput}" aura:id="checkbox"/>                 
+        </aura:if>
+
+        <!-- numerical stuff -->
+        <aura:if isTrue="{!v.fieldDescribe.describe.type == 'integer' || v.fieldDescribe.describe.type == 'double' || v.fieldDescribe.describe.type== 'percent'}">
+            <aura:if isTrue="{!and(v.fieldDescribe.describe.userCanEdit, v.fieldDescribe.editable)}">            
+                <input value="{!v.simpleOutput}" onblur="{!c.updateRecord}" class="slds-input slds-input--small"/>               
+                <aura:set attribute="else">
+                    {!v.simpleOutput}
+                </aura:set>
+            </aura:if>        
+        </aura:if>
+
+        <!-- currency-->
+        <aura:if isTrue="{!v.fieldDescribe.describe.type== 'currency'}">
+            <aura:if isTrue="{!and(v.fieldDescribe.describe.userCanEdit, v.fieldDescribe.editable)}">            
+                <input value="{!v.simpleOutput}" onblur="{!c.updateRecord}" class="slds-input slds-input--small"/>               
+                <aura:set attribute="else">
+                    <ui:outputCurrency aura:id="curr" value="{!v.myCurr}"/>
+                </aura:set>
+            </aura:if>        
+        </aura:if>
+
+        <!-- dates -->
+        <aura:if isTrue="{!v.fieldDescribe.describe.type == 'date'}">
+            <aura:if isTrue="{!and(v.fieldDescribe.describe.userCanEdit, v.fieldDescribe.editable)}">            
+                <ui:inputDate aura:id="dateField" value="{!v.simpleOutput}" displayDatePicker="true" updateOn="change" select="{!c.updateDate}"/>
+                <aura:set attribute="else">
+                    <ui:outputDate aura:id="dateFieldOutput" value="{!v.simpleOutput}"/>
+                </aura:set>
+            </aura:if>
+        </aura:if>
+
+        <!-- dates -->
+        <aura:if isTrue="{!v.fieldDescribe.describe.type == 'datetime'}">
+            <aura:if isTrue="{!and(v.fieldDescribe.describe.userCanEdit, v.fieldDescribe.editable)}">            
+                <ui:inputDateTime aura:id="dateTimeField" value="{!v.simpleOutput}" displayDatePicker="true" updateOn="change" select="{!c.updateDateTime}"/>
+                <aura:set attribute="else">
+                    <ui:outputDateTime aura:id="dateFieldOutput" value="{!v.simpleOutput}"/>
+                </aura:set>
+            </aura:if>
+        </aura:if>
+
+
+        <!--picklists-->
+        <aura:if isTrue="{!v.fieldDescribe.describe.type == 'picklist'}">
+            <aura:if isTrue="{!and(v.fieldDescribe.describe.userCanEdit, v.fieldDescribe.editable)}">                            
+                <ui:inputSelect change="{!c.changePicklist}" aura:id="picklist">
+                    <ui:inputSelectOption text="" label="--None--" value="{!!v.simpleOutput}"/>
+                    <aura:iteration items="{!v.fieldDescribe.describe.picklistOptions}" var="option">
+                        <ui:inputSelectOption text="{!option.value}" label="{!option.label}" value="{!v.simpleOutput == option.value}"/>
+                    </aura:iteration>
+                </ui:inputSelect>
+                <aura:set attribute="else">
+                    {!v.simpleOutput}
+                </aura:set>
+            </aura:if>
+        </aura:if>
+
+        <aura:if isTrue="{!v.fieldDescribe.describe.type == 'multipicklist'}">
+            Editing of MultiSelect is not supported :)
+        </aura:if>
+    </aura:if>
+
+</aura:component>

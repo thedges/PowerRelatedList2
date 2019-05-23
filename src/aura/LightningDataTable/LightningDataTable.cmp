@@ -1,0 +1,84 @@
+<aura:component controller="Ora" access="global">
+
+    <ltng:require scripts="{!$Resource.lodash}" afterScriptsLoaded="{!c.doInit}" />
+
+    <!--attributes set by parent-->
+    <!--filtering is handled above my pay grade.  I just show whatever the results are -->
+    <aura:attribute name="results" type="object[]" required="true" access="global" />
+    <aura:attribute name="displayFields" type="string" required="true" access="global" />
+    <aura:attribute name="editableFields" type="string" required="false" default="Phone" access="global" />
+    <aura:attribute name="sumFields" type="string" required="false" default="" access="global" />
+    <aura:attribute name="sObjectType" type="string" required="true" access="global" />
+    <aura:attribute name="colUppercase" type="boolean" access="global"/>
+    <aura:attribute name="editMode" type="boolean" access="global" default="false"/>
+
+    <!--private attributes -->
+    <aura:attribute name="sortState" type="object" access="global" />
+    <aura:attribute name="displayFieldsArray" type="object[]" access="global" />
+    <aura:attribute name="sumFieldsArray" type="object[]" access="global" />
+    <aura:attribute name="sumFieldVals" type="object[]" access="global" />
+
+    <aura:registerEvent name="selectSObject" type="ltng:selectSObject" />
+
+    <aura:handler name="change" value="{!v.results}" action="{!c.resultsChange}"/>
+    <aura:handler event="c:FieldChangeEvent" action="{!c.handleFieldChange}"   />
+
+    <table class="slds-table slds-table--bordered slds-no-row-hover slds-wrap slds-table_cell-buffer slds-max-medium-table_stacked-horizontal">
+        <thead>
+            <tr class="slds-has-flexi-truncate">
+                <aura:iteration items="{!v.displayFieldsArray}" var="field">
+                    <th scope="col" class="{!'col-' + field.describe.type}">
+                        <div class="slds-truncate" id="{!field.describe.name}" onclick="{!c.changeSort}">{!field.describe.label}</div>
+                    </th>
+                </aura:iteration>
+            </tr>
+        </thead>
+        <tbody>
+            <aura:iteration items="{!v.results}" var="record">
+                <tr class="slds-hint-parent slds-has-flexi-truncate">
+                    <aura:iteration items="{!v.displayFieldsArray}" var="field" start="0" end="1">
+
+                        <td data-label="{!field.describe.label}">
+                            <a onclick="{!c.selectRecord}" id="{!record.Id}">
+                                <c:SingleFieldDisplayer record="{!record}" fieldDescribe="{!field}" />
+                            </a>
+                        </td>
+                    </aura:iteration>
+                    <aura:iteration items="{!v.displayFieldsArray}" var="field" start="1">
+                        <!-- todo:size of based display fields array length -->
+
+                        <!--can read, can't edit-->
+                        <td data-label="{!field.describe.label}"  class="{!'data-' + field.describe.type}">
+                            <aura:if isTrue="{!v.editMode}">
+                              <aura:if isTrue="{!and(field.describe.userCanRead, or(!field.editable, field.related))}">
+                                <c:SingleFieldDisplayerReadOnly record="{!record}" fieldDescribe="{!field}" />
+                              </aura:if>
+                              <!--full read-write-->
+                              <aura:if isTrue="{!and(field.describe.userCanRead, field.editable, !field.related)}">
+                                <c:SingleFieldDisplayer record="{!record}" fieldDescribe="{!field}" />
+                              </aura:if>
+                                
+                               <aura:set attribute="else">
+                                   <c:SingleFieldDisplayerReadOnly record="{!record}" fieldDescribe="{!field}" />
+                              </aura:set>
+                            </aura:if>
+                        </td>
+                    </aura:iteration>
+                </tr>
+            </aura:iteration>
+            <aura:if isTrue="{!v.sumFields}">
+                <tr class="slds-hint-parent slds-has-flexi-truncate total-row">
+                    <td>
+                        <b>TOTAL</b>
+                    </td>
+                    <aura:iteration items="{!v.sumFieldVals}" var="val" start="1">
+                        <td class="align-right">
+                            <b>{!val}</b>
+                        </td>
+                    </aura:iteration>
+                </tr>
+            </aura:if>
+
+        </tbody>
+    </table>
+</aura:component>
