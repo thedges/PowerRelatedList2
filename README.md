@@ -23,8 +23,8 @@ Here are the configuration parameters for the component:
 | Object Name | String | The API name of the child/related object to show in this related list|
 | Lookup Field | String | The API field name on the child object that provides the lookup to the parent record |
 | Fields to Show | Comma Separated String | CSV string of all the API field names to show in the related list |
-| Fields to Edit | Comma Separated String | CSV string of all the API field names to make editable (these fields must also be included in the "Fields to Show" setting |
-| Fields to SUM | Comma Separated String | CSV string of all the API field names to SUM totals (these fields must also be included in the "Fields to Show" setting |
+| Fields to Edit | Comma Separated String | Optional CSV string of all the API field names to make editable (these fields must also be included in the "Fields to Show" setting |
+| Fields to SUM | Comma Separated String | Optional CSV string of all the API field names to SUM totals (these fields must also be included in the "Fields to Show" setting |
 | Record Type Id | String | The record type id to set for new records created |
 | Start in Edit Mode | Boolean | Turn on/off ability to start in edit mode |
 | Filter on Record Type | Boolean | Filter list of records based on record type id defined above |
