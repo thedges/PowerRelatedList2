@@ -15,8 +15,8 @@ Here are the configuration parameters for the component:
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| Title | String | |
-| Icon | String | |
+| Title | String | The title to display at top of component |
+| Icon | String | The SLDS icon string. Icons defined on [this page](https://lightningdesignsystem.com/icons/) and format is group:icon_name. So example for first icon is "action:add_contact" |
 | Column Uppercase | Boolean | |
 | Object Name | String | |
 | Lookup Field | String | |
