@@ -31,5 +31,6 @@ Here are the configuration parameters for the component:
 | Show Filter | Boolean | Show/hide the filter option |
 | Allow Add | Boolean | Show/hide the 'New' button to add new related objects |
 | Where Clause | String | Specify a SOQL where clause to limit the child records returns (ex: <b>Status = 'New'</b> for all  new child records |
+| Standard New Record | Boolean | Turn on/off flag to use standard new record modal window...else use custom new record window that only shows fields defined in the component |
 
 
