@@ -8,3 +8,24 @@ This is an updated version of the very useful component that Shane McLauglin bui
 * Flag to set column titles to uppercase to match standard Salesforce list view 
 * Ability to set a default Record Type Id for any new records created
 * Ability to use 2 screen options for new records: 1) utilize the standard new record screen that comes with Lightning or 2) a custom screen that dynamically renders with the defined display fields used for the setting the columns.
+
+Here are the configuration parameters for the component:
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| Title | | |
+| Icon | | |
+| Column Uppercase | | |
+| Object Name | | |
+| Lookup Field | | |
+| Fields to Show | | |
+| Fields to Edit | | |
+| Fields to SUM | | |
+| Record Type Id | | |
+| Start in Edit Mode | | |
+| Filter on Record Type | | |
+| Show Filter | | |
+| Allow Add | | |
+| Where Clause | | |
+
+
