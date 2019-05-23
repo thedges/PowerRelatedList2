@@ -1,6 +1,10 @@
 # PowerRelatedList2
 
+THIS SOFTWARE IS COVERED BY [THIS DISCLAIMER](https://raw.githubusercontent.com/thedges/Disclaimer/master/disclaimer.txt).
+
 This is an updated version of the very useful component that Shane McLauglin built [here](https://github.com/mshanemc/PowerRelatedList) so thanks to him for building out 99% of this. 
+
+![alt text](https://github.com/thedges/PowerRelatedList2/blob/master/PowerRelatedList2.gif "Sample Image")
 
 This version provides the following extra features:
 
@@ -33,4 +37,7 @@ Here are the configuration parameters for the component:
 | Where Clause | String | Specify a SOQL where clause to limit the child records returns (ex: <b>Status = 'New'</b> for all  new child records |
 | Standard New Record | Boolean | Turn on/off flag to use standard new record modal window...else use custom new record window that only shows fields defined in the component |
 
-
+<a href="https://githubsfdeploy.herokuapp.com">
+  <img alt="Deploy to Salesforce"
+       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
+</a>
