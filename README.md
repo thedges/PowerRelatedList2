@@ -15,19 +15,19 @@ Here are the configuration parameters for the component:
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| Title | | |
-| Icon | | |
-| Column Uppercase | | |
-| Object Name | | |
-| Lookup Field | | |
-| Fields to Show | | |
-| Fields to Edit | | |
-| Fields to SUM | | |
-| Record Type Id | | |
-| Start in Edit Mode | | |
-| Filter on Record Type | | |
-| Show Filter | | |
-| Allow Add | | |
-| Where Clause | | |
+| Title | String | |
+| Icon | String | |
+| Column Uppercase | Boolean | |
+| Object Name | String | |
+| Lookup Field | String | |
+| Fields to Show | Comma Separated String | |
+| Fields to Edit | Comma Separated String | |
+| Fields to SUM | Comma Separated String | |
+| Record Type Id | String | |
+| Start in Edit Mode | Boolean | |
+| Filter on Record Type | Boolean | |
+| Show Filter | Boolean | |
+| Allow Add | Boolean | |
+| Where Clause | String | |
 
 
