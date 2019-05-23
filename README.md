@@ -5,6 +5,7 @@ THIS SOFTWARE IS COVERED BY [THIS DISCLAIMER](https://raw.githubusercontent.com/
 This is an updated version of the very useful component that Shane McLauglin built [here](https://github.com/mshanemc/PowerRelatedList) so thanks to him for building out 99% of this. 
 
 Here is the component in action and checkout [this video](https://github.com/thedges/PowerRelatedList2/blob/master/PowerRelatedList2-Usage.mp4) for deep dive in to the component and configuration:
+
 ![alt text](https://github.com/thedges/PowerRelatedList2/blob/master/PowerRelatedList2.gif "Sample Image")
 
 This version provides the following extra features:
