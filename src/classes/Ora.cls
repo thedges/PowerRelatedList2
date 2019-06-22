@@ -155,6 +155,8 @@ global class Ora {
                 obj.put(Field, svalue == '' ? null : Double.valueOf(svalue));
             } else if (valueType == Schema.DisplayType.Integer) {
                 obj.put(Field, Integer.valueOf(svalue));
+            } else if (valueType == Schema.DisplayType.Boolean) {
+                obj.put(Field, Boolean.valueOf(svalue));
             } else if (valueType == Schema.DisplayType.Base64) {
                 obj.put(Field, EncodingUtil.base64Decode(svalue.split(',')[1]));
             } else {

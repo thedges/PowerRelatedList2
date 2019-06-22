@@ -12,6 +12,10 @@
             {
               record[fieldDescribe.describe.name] = Number(fieldValue);
             }
+            else if (fieldDescribe.describe.type == 'boolean')
+            {
+               record[fieldDescribe.describe.name] = Boolean(fieldValue);
+            }
             else
             {    
               record[fieldDescribe.describe.name] = fieldValue;
