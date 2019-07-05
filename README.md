@@ -28,6 +28,7 @@ Here are the configuration parameters for the component:
 | Column Uppercase | Boolean | Turn on/off to capitalize column titles to all uppercase like standard related lists |
 | Object Name | String | The API name of the child/related object to show in this related list|
 | Lookup Field | String | The API field name on the child object that provides the lookup to the parent record |
+| Match Field | String | The API field name of field on parent record to match value for the lookup field (typically used for external objects with indirect lookups) |
 | Fields to Show | Comma Separated String | CSV string of all the API field names to show in the related list |
 | Fields to Edit | Comma Separated String | Optional CSV string of all the API field names to make editable (these fields must also be included in the "Fields to Show" setting |
 | Fields to SUM | Comma Separated String | Optional CSV string of all the API field names to SUM totals (these fields must also be included in the "Fields to Show" setting |
