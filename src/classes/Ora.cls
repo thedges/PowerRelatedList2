@@ -16,7 +16,21 @@ global class Ora {
             throw new  AuraHandledException(e.getTypeName() + ' - ' + e.getMessage() + ' [Line: ' + e.getLineNumber() + ']');
         }
     }
-
+    
+    @AuraEnabled
+    global static string getFieldValue(String recordId, String fieldName) {
+        System.debug('getFieldValue...');
+        String sObjName = Id.valueOf(recordId).getSObjectType().getDescribe().getName();
+        String soqlStr = 'SELECT ' + fieldName + ' FROM ' + sObjName + ' WHERE Id = \'' + recordId + '\'';
+        List<SObject> objList = Database.query(soqlStr);
+        if (objList != null || objList.size() > 0)
+        {
+            return (String)objList[0].get(fieldName);
+        }
+        
+        return null;
+    }
+    
     @AuraEnabled
     global static string queryJSON(String soql) {
         return JSON.serialize(Database.query(soql));

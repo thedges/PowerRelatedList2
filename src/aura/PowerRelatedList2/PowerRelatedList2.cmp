@@ -4,6 +4,7 @@
     <aura:attribute name="title" type="string" required="false" access="global"/>
     <aura:attribute name="objectName" type="string" required="true" default="Contact"  access="global"/>
     <aura:attribute name="lookupField" type="string" required="true" default="AccountId" access="global"/>    
+    <aura:attribute name="matchField" type="string" required="false" default="" access="global"/>    
     <aura:attribute name="displayFields" type="string" required="true" default="Name, Phone, Email" access="global"/>
     <aura:attribute name="editableFields" type="string" required="false" default="" access="global"/>
     <aura:attribute name="sumFields" type="string" required="false" default="" access="global"/>
@@ -31,6 +32,7 @@
     <aura:attribute name="displayFieldsArray" type="object[]"/>
     <aura:attribute name="sortState" type="object"/>
     <aura:attribute name="showSpinner" type="boolean" />
+    <aura:attribute name="matchValue" type="String" />
 
     <!--handler for filter changes-->
     <aura:handler name="change" value="{!v.filter}" action="{!c.filter}"/>

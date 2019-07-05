@@ -5,7 +5,8 @@
     //build the query
 
     //get the describe
-    helper.query (component, helper.buildQuery (component));
+    helper.getMatchValue(component);
+    //helper.query (component, helper.buildQuery (component));
     helper.getPlural (component);
     //create placeholder record with only the lookup populated
     helper.setNewRecord (component);
